@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .form-container {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>{{title}}</h1>
+
+    <form action="/administer/select" method="POST">
+            <label for="table">Select Table:</label>
+        <select name="table" id="table">
+            {{#each tables}}
+            <option value="{{this}}">{{this}}</option>
+            {{/each}}
+        </select>
+        <button type="submit">View</button>
+    </form>
+
+    {{#if data}}
+    <table>
+        <thead>
+            <tr>
+            {{#each (keys data.[0])}}
+            <th>{{this}}</th>
+            {{/each}}
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each data}}
+        <tr>
+            {{#each this}}
+            <td>{{this}}</td>
+            {{/each}}
+            <td>
+                <!-- Update Form -->
+                <form action="/administer/update" method="POST" style="display:inline;">
+                    <input type="hidden" name="table" value="{{../table}}">
+                    {{#each this}}
+                    <input type="text" name="{{@key}}" value="{{this}}">
+                    {{/each}}
+                    <button type="submit">Update</button>
+                </form>
+
+                <!-- Delete Form -->
+                <form action="/administer/delete" method="POST" style="display:inline;">
+                    <input type="hidden" name="table" value="{{../table}}">
+                    {{#each this}}
+                    <input type="text" name="{{@key}}" value="{{this}}">
+                    {{/each}}
+                        <button type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+    <!-- Insert Form -->
+    <div class="form-container">
+        <form action="/administer/insert" method="POST">
+            <input type="hidden" name="table" value="{{table}}">
+            {{#each (keys data.[0])}}
+            <label for="{{this}}">{{this}}</label>
+            <input type="text" id="{{this}}" name="{{this}}" required>
+            {{/each}}
+            <button type="submit">Insert</button>
+        </form>
+    </div>
+    {{/if}}
+    <a href="/administer">Go Back to select table</a>
+</body>
+</html>

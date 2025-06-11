@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}}</title>
+</head>
+<body>
+    <h1>{{title}}</h1>
+    <p>Search Type: {{searchType}}</p>
+    <p>Search Value: {{searchValue}}</p>
+
+    {{#if books.length}}
+<table>
+    <thead>
+        <tr>
+            <th>ISBN</th>
+            <th>Title</th>
+            <th>Year</th>
+            <th>Category</th>
+            <th>Price</th>
+            <th>Total Inventory</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each books}}
+        <tr>
+            <td>{{ISBN}}</td>
+            <td>{{title}}</td>
+            <td>{{year}}</td>
+            <td>{{category}}</td>
+            <td>{{price}}</td>
+            <td>{{total_inventory}}</td>
+            <td>
+                {{#if total_inventory}}
+                    <form action="/book_search/reserve" method="POST" style="display:inline;">
+                        <input type="hidden" name="ISBN" value="{{ISBN}}">
+                        <button type="submit">Reserve</button>
+                    </form>
+                    <form action="/book_search/add_to_basket" method="POST" style="display:inline;">
+                        <input type="hidden" name="ISBN" value="{{ISBN}}">
+                        <button type="submit">Add to Basket</button>
+                    </form>
+                {{else}}
+                <button disabled>Out of Stock</button>
+                {{/if}}
+            </td> 
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+{{else}}
+<p>No books found for your search.</p>
+{{/if}}
+
+
+    <a href="/book_search">Go Back to Search</a>
+</body>
+</html>

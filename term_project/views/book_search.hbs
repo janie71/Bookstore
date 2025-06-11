@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}}</title>
+</head>
+<body>
+    <h1>{{title}}</h1>
+    <form action="/book_search" method="POST">
+        <label for="searchType">Search By:</label>
+        <select id="searchType" name="searchType">
+            <option value="book">Book Name</option>
+            <option value="author">Author Name</option>
+            <option value="award">Award Name</option>
+        </select>
+        <br><br>
+        <label for="searchValue">Enter Value:</label>
+        <input type="text" id="searchValue" name="searchValue" required>
+        <br><br>
+        <button type="submit">Search</button>
+    </form>
+        <a href="/">Go Back to home</a>
+</body>
+</html>

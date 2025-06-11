@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}}</title>
+</head>
+<body>
+    <h1>{{title}}</h1>
+
+    {{#if reservations.length}}
+    <form action="/reservation/update" method="POST">
+        <table border="1">
+            <thead> 
+                <tr>
+                    <th>Book Title</th>
+                    <th>Customer Name</th>
+                    <th>Reservation Date</th>
+                    <th>Pickup Date</th>
+                    <th>Pickup Time</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each reservations}}
+                <tr>
+                    <td>{{title}}</td>
+                    <td>{{name}}</td>
+                    <td>{{reservation_date}}</td>
+                    <!-- Reservation Date (Editable) -->
+                    <td>
+                        <input type="date" name="reservationDate" value="{{pickup_date}}" required>
+                    </td>
+                    <!-- Pickup Time (Editable) -->
+                    <td>
+                        <input type="time" name="pickupTime" value="{{pickup_time}}" required>
+                    </td>
+                    <td>
+                        <!-- Modify Button -->
+                        <form action="/reservation/update" method="POST" style="display:inline;">
+                            <input type="hidden" name="reservationId" value="{{book_ISBN}}">
+                            <button type="submit">Modify</button>
+                        </form>
+                        <!-- Cancel Button -->
+                        <form action="/reservation/delete" method="POST" style="display:inline;">
+                            <input type="hidden" name="reservationId" value="{{book_ISBN}}">
+                            <button type="submit">Cancel</button>
+                        </form>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </form>
+    {{else}}
+    <p>No reservations found.</p>
+    {{/if}}
+        <a href="/">Go Back to home</a>
+</body>
+</html>

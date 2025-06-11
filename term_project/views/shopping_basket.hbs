@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}}</title>
+</head>
+<body>
+    <h1>{{title}}</h1>
+
+    {{#if shoppingBasket.length}}
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Book Name</th>
+                <th>Contains Number</th>
+                <th>Inventory Number</th>
+                <th>Purchase Quantity</th>
+                <th>Warehouse</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each shoppingBasket}}
+            <tr>
+                <td>{{book_name}}</td>
+                <td>{{contains_number}}</td>
+                <td>{{inventory_number}}</td>
+                <td>
+                    <form action="/shopping_basket/purchase" method="POST">
+                        <input type="number" name="purchaseQuantity" min="1" max="{{inventory_number}}" required>
+                        <input type="hidden" name="containsNumber" value="{{contains_number}}">
+                        <input type="hidden" name="bookISBN" value="{{book_ISBN}}">
+                </td>
+                <td>
+                        <select name="warehouseCode" required>
+                            {{#each warehouse_codes}}
+                            <option value="{{this}}">{{this}}</option>
+                            {{/each}}
+                        </select>
+                </td>
+                <td>
+                        <button type="submit">Purchase</button>
+                    </form>
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+    {{else}}
+    <p>Your shopping basket is empty.</p>
+    {{/if}}
+        <a href="/">Go Back to home</a>
+</body>
+</html>
